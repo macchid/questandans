@@ -19,11 +19,11 @@ type Questionaire interface {
 
 type questionaire []Question
 
-func (qs *questionaire) Add(text string) (Question, error) {
+func (qs *questionaire) Add(who, text string) (Question, error) {
 	return nil, errors.New("Not implemented yet")
 }
 
-func (qs *questionaire) Change(question Question, newtext string) (Question, error) {
+func (qs *questionaire) Change(question Question, who, newtext string) (Question, error) {
 	return nil, errors.New("Not implemented yet")
 }
 
@@ -37,4 +37,27 @@ func (qs *questionaire) Read() ([]Question, error) {
 
 func (qs *questionaire) Peek(id string) (Question, error) {
 	return nil, errors.New("Not implemented yet")
+}
+
+type question struct {
+	id	string, 
+	who	string,	
+	question string,
+	answer string
+}
+
+func (q *question) Read() string {
+	return ""
+}
+
+func (q *question) Answer(who, text string) error {
+	return errors.New("Not implemented yet")
+}
+
+func (q *question) Change(who, text string) error {
+	return errors.New("Not implemented yet")
+}
+
+func (q *question) Blame() string {
+	return ""
 }
