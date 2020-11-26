@@ -17,6 +17,7 @@ import (
 	repo "github.com/macchid/questandans/repository"
 	"github.com/macchid/questandans/transport"
 	httpt "github.com/macchid/questandans/transport/http"
+	"github.com/macchid/questandans/utils"
 )
 
 func main() {
@@ -34,8 +35,8 @@ func main() {
 		logger = level.NewFilter(logger, level.AllowDebug())
 		logger = log.With(logger,
 			"svc", "question",
-			"ts", log.DefaultTimestampUTC,
-			"caller", log.DefaultCaller,
+			"ts", log.DefaultTimestamp,
+			"caller", utils.Caller(3),
 		)
 	}
 
