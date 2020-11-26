@@ -1,63 +1,28 @@
 package questions
 
-import "errors"
+import (
+	"context"
+	"errors"
+)
 
-type Question interface {
-	Read() string
-	Answer(who, text string) error
-	Change(who, text string) error
-	Blame() (string, error)
+type Question struct {
+	ID        string `json:"id,omitempty" bson:"id"`
+	Who       string `json:"who" bson:"who"`
+	Statement string `json:"statement" bson:"statement"`
+	Answer    string `json:"answer,omitempty" bson:"answer"`
 }
 
-type Questionaire interface {
-	Add(who, text string) (Question, error)
-	Change(question Question, who, newtext string) (Question, error)
-	Delete(id string) (Question, error)
-	Read() ([]Question, error)
-	Peek(id string) (Question, error)
+type Repository interface {
+	CreateQuestion(ctx context.Context, q Question) error
+	GetQuestions(ctx context.Context) ([]*Question, error)
+	GetQuestionsByUser(ctx context.Context, username string) ([]*Question, error)
+	GetQuestionByID(ctx context.Context, id string) (*Question, error)
+	ChangeQuestion(ctx context.Context, q Question) error
+	DeleteQuestion(ctx context.Context, id string) error
 }
 
-type questionaire []Question
-
-func (qs *questionaire) Add(who, text string) (Question, error) {
-	return nil, errors.New("Not implemented yet")
-}
-
-func (qs *questionaire) Change(question Question, who, newtext string) (Question, error) {
-	return nil, errors.New("Not implemented yet")
-}
-
-func (qs *questionaire) Delete(id string) (Question, error) {
-	return nil, errors.New("Not implemented yet")
-}
-
-func (qs *questionaire) Read() ([]Question, error) {
-	return nil, errors.New("Not implemented yet")
-}
-
-func (qs *questionaire) Peek(id string) (Question, error) {
-	return nil, errors.New("Not implemented yet")
-}
-
-type question struct {
-	id	string, 
-	who	string,	
-	question string,
-	answer string
-}
-
-func (q *question) Read() string {
-	return ""
-}
-
-func (q *question) Answer(who, text string) error {
-	return errors.New("Not implemented yet")
-}
-
-func (q *question) Change(who, text string) error {
-	return errors.New("Not implemented yet")
-}
-
-func (q *question) Blame() string {
-	return ""
-}
+var (
+	ErrCmdRepository    = errors.New("Unable to command repository")
+	ErrQueryRepository  = errors.New("Unable to query repository")
+	ErrQuestionNotFound = errors.New("Question not found")
+)
